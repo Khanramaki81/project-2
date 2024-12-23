@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Validator;
 class LoginController extends Controller
 {
     public function login(LoginRequest $request){
-        $credentials = request(['email', 'password']);
-        if(!auth()->attempt($credentials)){
+        $data = request(['email', 'password']);
+        if(!auth()->attempt($data)){
             return response()->json([
                 "message" => "Unauthorized, check your login credentials."
             ],401);

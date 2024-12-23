@@ -22,7 +22,7 @@ class generateSMS extends FormRequest
     public function rules(): array
     {
         return [
-            'login' => ['required', 'string', 'exists:users,phone'],
+            'phone' => ['required', 'string', 'exists:users,phone'],
         ];
     }
 }

@@ -22,7 +22,7 @@ class generateEmail extends FormRequest
     public function rules(): array
     {
         return [
-            'login' => ['required', 'string', 'exists:users,email'],
+            'email' => ['required', 'string', 'exists:users,email'],
         ];
     }
 }

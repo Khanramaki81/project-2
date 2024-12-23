@@ -22,8 +22,8 @@ class SMSCode extends FormRequest
     public function rules(): array
     {
         return [
-            'login' => ['required', 'string','exists:users,phone'],
-            'code' => ['required', 'string','exists:otp_codes,code'],
+            'phone' => ['required', 'string','exists:users,phone'],
+            'code' => ['required', 'string'],
         ];
     }
 }

@@ -12,13 +12,9 @@ class RegisterController extends Controller
 {
     public function register(RegisterRequest $request)
     {
-        $create = $request->only(['name','email','phone']);
-        $create['password'] = bcrypt($request->password);
-        $user = User::create($create);
-
-        if($request->role == "admin"){
-            $user->assignRole($request->role);
-        }
+        $data = $request->only(['name','email','phone']);
+        $data['password'] = bcrypt($request->password);
+        $user = User::create($data);
 
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->plainTextToken;

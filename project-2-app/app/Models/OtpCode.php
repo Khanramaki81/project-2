@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class OtpCode extends Model
 {
     protected $fillable = [
-        'login',
+        'login_method_value',
+        'login_method',
         'code',
         'attempt',
         'expired_at',

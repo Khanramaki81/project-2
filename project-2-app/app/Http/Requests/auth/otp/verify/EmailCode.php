@@ -22,8 +22,8 @@ class EmailCode extends FormRequest
     public function rules(): array
     {
         return [
-            'login' => ['required', 'string','exists:users,email'],
-            'code' => ['required', 'string','exists:otp_codes,code'],
+            'email' => ['required', 'string','exists:users,email'],
+            'code' => ['required', 'string'],
         ];
     }
 }

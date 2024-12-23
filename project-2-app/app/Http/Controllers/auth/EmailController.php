@@ -16,35 +16,50 @@ use Illuminate\Support\Facades\Validator;
 class EmailController extends Controller
 {
     public function sendEmail(generateEmail $request){
-        $email = $request->login;
-        if($email){
+        $user = User::firstWhere('email',$request->email);
+        $email = $user->email;
+        if($user){
             $code =  rand(1000, 9999);
-            OtpCode::create([
-                'login'=>$email,
-                'code'=>$code,
-                'expired_at'=>Carbon::now()->addMinutes(10),
-            ]);
+            $otp = OtpCode::firstWhere('login_method_value',$user->email);
+            if($otp){
+                $otp->update([
+                    'attempt' => $otp->attempt+1,
+                    'code'=>$code,
+                ]);
+            }else{
+                OtpCode::create([
+                    'login_method_value' => $user->email,
+                    'login_method'=> 'email',
+                    'code'=>$code,
+                    'expired_at'=>Carbon::now()->addMinutes(10),
+                ]);
+            }
             if(env('MAIL_STATUS')){
                 Mail::to($email)->send(new VerifyCodeEmail($code));
             }
             return response()->json([
                 'success' => true,
                 'data' => [],
-                'message' => 'Send Code To Email',
+                'message' => 'Send Code To Email Successfully',
             ]);
         }else
             return response()->json([
                 'success' => false,
             ],  status: 422);
-
     }
 
     public function verifyCode(EmailCode $request){
-        $user = User::firstWhere('email',$request->login);
+        $user = User::firstWhere('email',$request->email);
         if($user){
-            $code = OtpCode::firstWhere('login',$user->email);
+            $code = OtpCode::firstWhere([
+                ['login_method_value',$user->email],
+                ['login_method', 'email']
+            ]);
             if($code->code == $request->code){
                 if($code->expired_at > Carbon::now()){
+                    if(!$user->email_verified_at){
+                        $user->markEmailAsVerified();
+                    }
                     $tokenResult = $user->createToken('Personal Access Token');
                     $token = $tokenResult->plainTextToken;
                     $code->delete();
@@ -76,37 +91,5 @@ class EmailController extends Controller
                 ],
             ]);
         }
-    }
-
-    public function generateOtp(generateEmail $request){
-        $user = User::firstWhere('email',$request->login);
-        $email = $user->email;
-        if($user){
-            $code =  rand(1000, 9999);
-            $otp = OtpCode::firstWhere('login',$user->login);
-            if($otp){
-                $otp->update([
-                    'attempt' => $otp->attempt+1,
-                    'code'=>$code,
-                ]);
-            }else{
-                OtpCode::create([
-                    'login'=>$user->email,
-                    'code'=>$code,
-                    'expired_at'=>Carbon::now()->addMinutes(10),
-                ]);
-            }
-            if(env('MAIL_STATUS')){
-                Mail::to($email)->send(new VerifyCodeEmail($code));
-            }
-            return response()->json([
-                'success' => true,
-                'data' => [],
-                'message' => 'Send Code To Email',
-            ]);
-        }else
-            return response()->json([
-                'success' => false,
-            ],  status: 422);
     }
 }

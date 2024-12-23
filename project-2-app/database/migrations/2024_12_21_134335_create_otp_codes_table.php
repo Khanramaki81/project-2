@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('otp_codes', function (Blueprint $table) {
             $table->id();
-            $table->string('login');
+            $table->string('login_method_value');
+            $table->string('login_method');
             $table->unsignedInteger('code');
             $table->unsignedInteger('attempt')->default(0);
             $table->timestamp('expired_at');

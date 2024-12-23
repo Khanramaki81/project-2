@@ -17,15 +17,25 @@ class SmsController extends Controller
 {
     public function sendSMS(generateSMS $request)
     {
-        $mobile_number = $request->login;
-        if($mobile_number){
-            $code =  rand(1000, 9999);
-            OtpCode::create([
-                'login'=>$mobile_number,
-                'code'=>$code,
-                'expired_at'=>Carbon::now()->addMinutes(10),
-            ]);
-            if(env('SMS_STATUS')){
+        $user = User::firstWhere('phone', $request->phone);
+        $mobile_number = $user->phone;
+        if ($user) {
+            $code = rand(1000, 9999);
+            $otp = OtpCode::firstWhere('login_method_value', $user->phone);
+            if ($otp) {
+                $otp->update([
+                    'attempt' => $otp->attempt + 1,
+                    'code' => $code,
+                ]);
+            } else {
+                OtpCode::create([
+                    'login_method_value' => $user->phone,
+                    'login_method' => 'phone',
+                    'code' => $code,
+                    'expired_at' => Carbon::now()->addMinutes(10),
+                ]);
+            }
+            if (env('SMS_STATUS')) {
                 SmsHelper::sendSms($mobile_number, $code);
             }
             return response()->json([
@@ -33,15 +43,19 @@ class SmsController extends Controller
                 'data' => [],
                 'message' => 'Send Code To SMS Successfully',
             ]);
-        }else
+        } else
             return response()->json([
                 'success' => false,
-            ],  status: 422);
+            ], status: 422);
     }
+
     public function verifyCode(SMSCode $request){
-        $user = User::firstWhere('phone',$request->login);
+        $user = User::firstWhere('phone',$request->phone);
         if($user){
-            $code = OtpCode::firstWhere('login',$user->phone);
+            $code = OtpCode::firstWhere([
+                ['login_method_value',$user->phone],
+                ['login_method', 'phone']
+            ]);
             if($code->code == $request->code){
                 if($code->expired_at > Carbon::now()){
                     $tokenResult = $user->createToken('Personal Access Token');
@@ -75,37 +89,5 @@ class SmsController extends Controller
                 ],
             ]);
         }
-    }
-    public function generateOtp(generateSMS $request)
-    {
-        $user = User::firstWhere('phone', $request->login);
-        $mobile_number = $user->phone;
-        if ($user) {
-            $code = rand(1000, 9999);
-            $otp = OtpCode::firstWhere('login', $user->login);
-            if ($otp) {
-                $otp->update([
-                    'attempt' => $otp->attempt + 1,
-                    'code' => $code,
-                ]);
-            } else {
-                OtpCode::create([
-                    'login' => $user->phone,
-                    'code' => $code,
-                    'expired_at' => Carbon::now()->addMinutes(10),
-                ]);
-            }
-            if (env('SMS_STATUS')) {
-                SmsHelper::sendSms($mobile_number, $code);
-            }
-            return response()->json([
-                'success' => true,
-                'data' => [],
-                'message' => 'Send Code To Email',
-            ]);
-        } else
-            return response()->json([
-                'success' => false,
-            ], status: 422);
     }
 }
