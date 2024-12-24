@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 23, 2024 at 10:26 PM
+-- Generation Time: Dec 24, 2024 at 09:05 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -162,6 +162,7 @@ CREATE TABLE `otp_codes` (
   `login_method_value` varchar(255) NOT NULL,
   `login_method` varchar(255) NOT NULL,
   `code` int(10) UNSIGNED NOT NULL,
+  `otp_token` varchar(255) NOT NULL,
   `attempt` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `expired_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `created_at` timestamp NULL DEFAULT NULL,
@@ -172,8 +173,8 @@ CREATE TABLE `otp_codes` (
 -- Dumping data for table `otp_codes`
 --
 
-INSERT INTO `otp_codes` (`id`, `login_method_value`, `login_method`, `code`, `attempt`, `expired_at`, `created_at`, `updated_at`) VALUES
-(3, '09119915633', 'phone', 2466, 0, '2024-12-23 16:55:57', '2024-12-23 16:45:57', '2024-12-23 16:45:57');
+INSERT INTO `otp_codes` (`id`, `login_method_value`, `login_method`, `code`, `otp_token`, `attempt`, `expired_at`, `created_at`, `updated_at`) VALUES
+(5, 'khanramaki@gmail.com', 'email', 9069, 'PsJtZFreqQG3uNwHsdmFG93XaT1x8XSe', 2, '2024-12-24 19:40:51', '2024-12-24 16:03:28', '2024-12-24 16:10:51');
 
 -- --------------------------------------------------------
 
@@ -238,13 +239,17 @@ CREATE TABLE `personal_access_tokens` (
 --
 
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
-(1, 'App\\Models\\User', 3, 'Personal Access Token', '0e7d82b71785480992ccadd40fd752e89a3bfc05190d47642f6cd8332fa8b9d4', '[\"*\"]', NULL, NULL, '2024-12-23 15:35:18', '2024-12-23 15:35:18'),
-(2, 'App\\Models\\User', 3, 'Personal Access Token', '2f16d4e0633ca1726f42d4f4b57e671921794675ec93e806b28c8357878e56b4', '[\"*\"]', NULL, NULL, '2024-12-23 16:43:07', '2024-12-23 16:43:07'),
-(3, 'App\\Models\\User', 3, 'Personal Access Token', '4e942e65cfe883ab37a3c79f6a1fb74d62f67d7d9eb1befd4fe14a727ae5e7e6', '[\"*\"]', NULL, NULL, '2024-12-23 16:44:58', '2024-12-23 16:44:58'),
-(4, 'App\\Models\\User', 3, 'Personal Access Token', 'dd5db3cbb225ecc05be4797f0e72b99292b1b75ccc7f19c0bb4cbe8177615300', '[\"*\"]', NULL, NULL, '2024-12-23 17:12:40', '2024-12-23 17:12:40'),
-(5, 'App\\Models\\User', 3, 'Personal Access Token', '46e4a57e4e4be125bf978212e6fc4bef552d01b886ed3e8b6e24707a43dd0fcd', '[\"*\"]', NULL, NULL, '2024-12-23 17:16:17', '2024-12-23 17:16:17'),
-(6, 'App\\Models\\User', 4, 'Personal Access Token', '5843a383922fe64d9cb89327750041967bbf05b5c807a54027318ee422a2f934', '[\"*\"]', NULL, NULL, '2024-12-23 17:32:52', '2024-12-23 17:32:52'),
-(7, 'App\\Models\\User', 4, 'Personal Access Token', '81edbbb0967e869e5ee3365d3d308ad44ae21caab31fb593fc61bb04c64ba931', '[\"*\"]', NULL, NULL, '2024-12-23 17:38:16', '2024-12-23 17:38:16');
+(1, 'App\\Models\\User', 3, 'Personal Access Token', 'fb396e871beebdb648a64cb52940c5ce369ae9d086a6f2c44024175cd42aaaba', '[\"*\"]', NULL, NULL, '2024-12-24 08:22:26', '2024-12-24 08:22:26'),
+(2, 'App\\Models\\User', 3, 'Personal Access Token', 'ba899621887189a61ac848fe5347faccc64dc594be2dd30055f51e3e80326f5b', '[\"*\"]', NULL, NULL, '2024-12-24 08:29:54', '2024-12-24 08:29:54'),
+(3, 'App\\Models\\User', 4, 'Personal Access Token', '2fdd40efcf7e0d532485d3acf9cf22e72c91f54ee5cb756da1455db337f73d4c', '[\"*\"]', NULL, NULL, '2024-12-24 08:47:05', '2024-12-24 08:47:05'),
+(4, 'App\\Models\\User', 3, 'Personal Access Token', '8613be72a042393c18cfbf6f76634f69fb3d8dcd1936bc25b27a3e93fed87d48', '[\"*\"]', NULL, NULL, '2024-12-24 08:57:28', '2024-12-24 08:57:28'),
+(5, 'App\\Models\\User', 4, 'Personal Access Token', 'c31937841822c6e496833aa1c4e4f0df95ed174c4920f2d45326670ad817316c', '[\"*\"]', NULL, NULL, '2024-12-24 08:58:00', '2024-12-24 08:58:00'),
+(6, 'App\\Models\\User', 5, 'Personal Access Token', 'eafa7f50593d8a7dd5d21db41bb5e78b54bb7f39a1fc869260692ff5f4763c34', '[\"*\"]', NULL, NULL, '2024-12-24 09:18:18', '2024-12-24 09:18:18'),
+(7, 'App\\Models\\User', 5, 'Personal Access Token', '92a3ff3c2e1a01918d6dd69227b471e738843fe28f90a069bdea427fa2bab67c', '[\"*\"]', NULL, NULL, '2024-12-24 09:24:09', '2024-12-24 09:24:09'),
+(8, 'App\\Models\\User', 6, 'Personal Access Token', '4b32ea065c1357f0acad8f74ab74df80bb8fef4aafdfc7a6303239bcca7fa80c', '[\"*\"]', NULL, NULL, '2024-12-24 09:48:05', '2024-12-24 09:48:05'),
+(9, 'App\\Models\\User', 6, 'Personal Access Token', '2d4980240dd7ea29dc0c961e4cfdb71b24ead26982e2610fdc5faaf11ac28b42', '[\"*\"]', NULL, NULL, '2024-12-24 10:19:13', '2024-12-24 10:19:13'),
+(10, 'App\\Models\\User', 7, 'Personal Access Token', 'b7d31b72e9635832afb1b5dcffad08bd31bde71503536204b0d8f69db118474b', '[\"*\"]', NULL, NULL, '2024-12-24 14:37:44', '2024-12-24 14:37:44'),
+(11, 'App\\Models\\User', 8, 'Personal Access Token', '213550c7d33346f04051cf441308cd63bd7bc5a72ab7049a73be16fb8f8355ef', '[\"*\"]', NULL, NULL, '2024-12-24 14:46:40', '2024-12-24 14:46:40');
 
 -- --------------------------------------------------------
 
@@ -265,7 +270,7 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'web', '2024-12-23 15:35:08', '2024-12-23 15:35:08');
+(1, 'admin', 'web', '2024-12-24 08:15:48', '2024-12-24 08:15:48');
 
 -- --------------------------------------------------------
 
@@ -328,10 +333,14 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `phone`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'zahra', 'zahra@gmail.com', NULL, '$2y$12$BqOXsMQjylmWsk/v0mZRS.5LlA1RmMwH3dBsH1Uyd0fU3RCjJywdK', '0123456789', NULL, '2024-12-23 15:35:09', '2024-12-23 15:35:09'),
-(2, 'Test User', 'test@example.com', '2024-12-23 15:35:09', '$2y$12$nhVjqoydPDD1TDBMDD3W7.IrD05KFUlo1rUVIQHrjDpKk5d6jw0SK', NULL, '9hRQlByu3r', '2024-12-23 15:35:09', '2024-12-23 15:35:09'),
-(3, 'maryam', 'maryam@gmail.com', '2024-12-23 17:12:39', '$2y$12$bwZTg7KNdFYFIw36.tKszulzGl0XPD9d8Eyuq6T4ADSOfjPwf7tEu', '09119915633', NULL, '2024-12-23 15:35:18', '2024-12-23 17:12:39'),
-(4, 'taha', 'taha@gmail.com', '2024-12-23 17:38:15', '$2y$12$OEbJ78XyF.faaUILtTRclebT4CcooG/x6gR7IVTKr6mCULf0MNfcy', '09119915726', NULL, '2024-12-23 17:32:52', '2024-12-23 17:38:15');
+(1, 'zahra', 'zahra@gmail.com', NULL, '$2y$12$n1ygNntmDNhjQkGYZLVD5uJpzyslH1tCzK0VwpVxM3PmhvNmwHCVC', '0123456789', NULL, '2024-12-24 08:15:49', '2024-12-24 08:15:49'),
+(2, 'Test User', 'test@example.com', '2024-12-24 08:15:49', '$2y$12$pOepTfu/ZPwqNfirFW684umtGBAOqaNoN6r3ylIK.3SbeuG9fN0g.', NULL, '6ja8AzEAfZ', '2024-12-24 08:15:49', '2024-12-24 08:15:49'),
+(3, 'amir', 'amir@gmail.com', '2024-12-24 08:29:54', '$2y$12$ZhQ1qLu3aIDxCVNjAz6f0Oq2swD7eIpo3WxTKsDB7OtDYT1BFMCri', '09119915633', NULL, '2024-12-24 08:22:26', '2024-12-24 08:29:54'),
+(4, 'amin', 'amin@gmail.com', NULL, '$2y$12$xVyczFtGDWz5rGxU5UeS2.SuX3j7hxSIXVTi.ZDJuTExZD.AtQM.y', '09119915726', NULL, '2024-12-24 08:47:05', '2024-12-24 08:47:05'),
+(5, 'mobina', 'mobina@gmail.com', NULL, '$2y$12$hRZjTAIAY.AKTVU.QWy8kO.QlAu.JNy68zn.TyJlut43rG5r0hVRe', '09110000000', NULL, '2024-12-24 09:18:18', '2024-12-24 09:18:18'),
+(6, 'mina', 'mina@gmail.com', NULL, '$2y$12$8wDKJRglaZbsMx0fJcYQse0YvGPqm5RSMQ35TE4r8PeQNUR4E2i2e', '09110000001', NULL, '2024-12-24 09:48:05', '2024-12-24 09:48:05'),
+(7, 'saeideh khanramaki', 'khanramaki@gmail.com', NULL, '$2y$12$eTwVuSz1jV5ienwYp6pvMO0l8ur3PuA8k6My0CxPeuJ35pKlUYrMG', '09110000003', NULL, '2024-12-24 14:37:43', '2024-12-24 14:37:43'),
+(8, 'saeideh khanramaki', 'sa@gmail.com', NULL, '$2y$12$Eb0DpYObe9W5Wdpdst.qkeziTsMMNJfEKf3XFmb6emaB.MhA1joMO', '09110000004', NULL, '2024-12-24 14:46:39', '2024-12-24 14:46:39');
 
 --
 -- Indexes for dumped tables
@@ -471,19 +480,19 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `otp_codes`
 --
 ALTER TABLE `otp_codes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -495,7 +504,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables

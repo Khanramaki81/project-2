@@ -8,29 +8,66 @@ use App\Http\Requests\auth\otp\verify\EmailCode;
 use App\Mail\VerifyCodeEmail;
 use App\Models\OtpCode;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class EmailController extends Controller
 {
-    public function sendEmail(generateEmail $request){
+    /**
+     * @param generateEmail $request
+     * @return JsonResponse
+     *
+     * @OA\Post(
+     *     path="/api/auth/sendEmail",
+     *     summary="Send verifiction sms to user",
+     *     description="Send verifiction sms to user",
+     *     tags={"auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="email", type="string", example="saeideh@gmail.com"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="You have been logged in successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Send Code To Email Successfully."),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validatiob Error",
+     *         @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", description="Email not found."),
+     *         ),
+     *     ),
+     * )
+     */
+    public function sendEmail(generateEmail $request): \Illuminate\Http\JsonResponse
+    {
         $user = User::firstWhere('email',$request->email);
         $email = $user->email;
         if($user){
+            $otp_token = str::random(32);
             $code =  rand(1000, 9999);
             $otp = OtpCode::firstWhere('login_method_value',$user->email);
             if($otp){
                 $otp->update([
                     'attempt' => $otp->attempt+1,
                     'code'=>$code,
+                    'otp_token' => $otp_token,
                 ]);
             }else{
                 OtpCode::create([
                     'login_method_value' => $user->email,
                     'login_method'=> 'email',
                     'code'=>$code,
+                    'otp_token'=>$otp_token,
                     'expired_at'=>Carbon::now()->addMinutes(10),
                 ]);
             }
@@ -45,42 +82,54 @@ class EmailController extends Controller
         }else
             return response()->json([
                 'success' => false,
+                'message' => "email not found",
             ],  status: 422);
     }
 
-    public function verifyCode(EmailCode $request){
+    public function verifyCode(EmailCode $request): \Illuminate\Http\JsonResponse
+    {
         $user = User::firstWhere('email',$request->email);
         if($user){
             $code = OtpCode::firstWhere([
                 ['login_method_value',$user->email],
-                ['login_method', 'email']
+                ['login_method', 'email'],
+                ['otp_token',$request->otp_token]
             ]);
-            if($code->code == $request->code){
-                if($code->expired_at > Carbon::now()){
-                    if(!$user->email_verified_at){
-                        $user->markEmailAsVerified();
+            if($code){
+                if($code->code == $request->code){
+                    if($code->expired_at > Carbon::now()){
+                        if(!$user->email_verified_at){
+                            $user->markEmailAsVerified();
+                        }
+                        $tokenResult = $user->createToken('Personal Access Token');
+                        $token = $tokenResult->plainTextToken;
+                        $code->delete();
+                        return response()->json([
+                            'success' => true,
+                            'data' => [
+                                'token' => $token,
+                                'user' => $user->only('name','email','created_at'),
+                            ]
+                        ]);
+                    }else{
+                        $code->delete();
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Code Expired'
+                        ]);
                     }
-                    $tokenResult = $user->createToken('Personal Access Token');
-                    $token = $tokenResult->plainTextToken;
-                    $code->delete();
-                    return response()->json([
-                       'success' => true,
-                       'data' => [
-                           'token' => $token,
-                           'user' => $user->only('name','email','created_at'),
-                       ]
-                    ]);
                 }else{
-                    $code->delete();
                     return response()->json([
                         'success' => false,
-                        'message' => 'Code Expired'
+                        'message' => 'Code Invalid'
                     ]);
                 }
             }else{
                 return response()->json([
                     'success' => false,
-                    'message' => 'Code Invalid'
+                    'message' => [
+                        'not_found' => 'user not found'
+                    ],
                 ]);
             }
         }else{

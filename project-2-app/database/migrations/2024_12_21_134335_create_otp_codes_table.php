@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('login_method_value');
             $table->string('login_method');
             $table->unsignedInteger('code');
+            $table->string('otp_token');
             $table->unsignedInteger('attempt')->default(0);
             $table->timestamp('expired_at');
             $table->timestamps();

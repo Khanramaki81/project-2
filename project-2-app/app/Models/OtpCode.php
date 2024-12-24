@@ -10,6 +10,7 @@ class OtpCode extends Model
         'login_method_value',
         'login_method',
         'code',
+        'otp_token',
         'attempt',
         'expired_at',
     ];
