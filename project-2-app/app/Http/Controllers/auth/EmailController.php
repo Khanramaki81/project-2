@@ -23,8 +23,8 @@ class EmailController extends Controller
      *
      * @OA\Post(
      *     path="/api/auth/sendEmail",
-     *     summary="Send verifiction sms to user",
-     *     description="Send verifiction sms to user",
+     *     summary="Send verifiction email to user",
+     *     description="Send verifiction email to user",
      *     tags={"auth"},
      *     @OA\RequestBody(
      *         required=true,
@@ -41,7 +41,7 @@ class EmailController extends Controller
      *     ),
      *     @OA\Response(
      *         response=422,
-     *         description="Validatiob Error",
+     *         description="Validation Error",
      *         @OA\JsonContent(
      *              @OA\Property(property="message", type="string", description="Email not found."),
      *         ),
@@ -86,6 +86,54 @@ class EmailController extends Controller
             ],  status: 422);
     }
 
+    /**
+     * @param EmailCode $request
+     * @return JsonResponse
+     *
+     * @OA\Post(
+     *     path="/api/auth/verifyEmail",
+     *     summary="Send verifiction code to server",
+     *     description="Send verifiction code to server",
+     *     tags={"auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="email", type="string", example="khanramakisaeideh@gmail.com"),
+     *             @OA\Property(property="code", type="string", example="5432"),
+     *             @OA\Property(property="otp_token", type="string", example="pfjV8IqaO12Odgofw7Pm6lP1ResAR4dL"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="You have been logged in successfully",
+     *         @OA\JsonContent(
+     *              @OA\Property(property="token", type="string", description="Access token for the registered user"),
+     *              @OA\Property(property="user", type="object", description="User details"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Code Expired",
+     *          @OA\JsonContent(
+     *               @OA\Property(property="message", type="string"),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Code Invalid",
+     *          @OA\JsonContent(
+     *               @OA\Property(property="message", type="string"),
+     *          ),
+     *      ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not Found",
+     *         @OA\JsonContent(
+     *              @OA\Property(property="message", type="string"),
+     *         ),
+     *     ),
+     * )
+     */
     public function verifyCode(EmailCode $request): \Illuminate\Http\JsonResponse
     {
         $user = User::firstWhere('email',$request->email);
@@ -116,29 +164,29 @@ class EmailController extends Controller
                         return response()->json([
                             'success' => false,
                             'message' => 'Code Expired'
-                        ]);
+                        ],status: 403);
                     }
                 }else{
                     return response()->json([
                         'success' => false,
                         'message' => 'Code Invalid'
-                    ]);
+                    ],status: 400);
                 }
             }else{
                 return response()->json([
                     'success' => false,
                     'message' => [
-                        'not_found' => 'user not found'
+                        'not_found' => 'Email does not match'
                     ],
-                ]);
+                ],status:404);
             }
         }else{
             return response()->json([
                 'success' => false,
                 'message' => [
-                    'not_found' => 'User Not Found'
+                    'not_found' => 'The email is incorrect'
                 ],
-            ]);
+            ],status: 404);
         }
     }
 }

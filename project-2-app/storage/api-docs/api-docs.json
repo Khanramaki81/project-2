@@ -11,8 +11,8 @@
                 "tags": [
                     "auth"
                 ],
-                "summary": "Send verifiction sms to user",
-                "description": "Send verifiction sms to user",
+                "summary": "Send verifiction email to user",
+                "description": "Send verifiction email to user",
                 "operationId": "22f908b16ee115e8b5b87fcfdd5753d4",
                 "requestBody": {
                     "required": true,
@@ -48,13 +48,114 @@
                         }
                     },
                     "422": {
-                        "description": "Validatiob Error",
+                        "description": "Validation Error",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "description": "Email not found.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/verifyEmail": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Send verifiction code to server",
+                "description": "Send verifiction code to server",
+                "operationId": "2de322c6f4963ef2d8b02221853b9b67",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "khanramakisaeideh@gmail.com"
+                                    },
+                                    "code": {
+                                        "type": "string",
+                                        "example": "5432"
+                                    },
+                                    "otp_token": {
+                                        "type": "string",
+                                        "example": "pfjV8IqaO12Odgofw7Pm6lP1ResAR4dL"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "You have been logged in successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "description": "Access token for the registered user",
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "description": "User details",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Code Expired",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Code Invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
                                             "type": "string"
                                         }
                                     },
@@ -103,11 +204,11 @@
                                 "schema": {
                                     "properties": {
                                         "token": {
-                                            "description": "Access token for the registered user.",
+                                            "description": "Access token for the registered user",
                                             "type": "string"
                                         },
                                         "user": {
-                                            "description": "User details.",
+                                            "description": "User details",
                                             "type": "object"
                                         }
                                     },
@@ -191,6 +292,167 @@
                                         "user": {
                                             "description": "User details.",
                                             "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/sendSMS": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Send verifiction sms to user",
+                "description": "Send verifiction sms to user",
+                "operationId": "a0606f3f3d1924752b49e5b530967b22",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "09000000000"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "You have been logged in successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Send Code To sms Successfully.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Phone not found",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/verifySMS": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Send verifiction code to server",
+                "description": "Send verifiction code to server",
+                "operationId": "a3b0b75fe4b567e5b100323caae6e1d7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "09000000000"
+                                    },
+                                    "code": {
+                                        "type": "string",
+                                        "example": "5432"
+                                    },
+                                    "otp_token": {
+                                        "type": "string",
+                                        "example": "pfjV8IqaO12Odgofw7Pm6lP1ResAR4dL"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "You have been logged in successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "description": "Access token for the registered user",
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "description": "User details",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Code Expired",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Code Invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
                                         }
                                     },
                                     "type": "object"

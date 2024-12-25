@@ -32,8 +32,8 @@ class LoginController extends Controller
      *         response=200,
      *         description="You have been logged in successfully",
      *         @OA\JsonContent(
-     *             @OA\Property(property="token", type="string", description="Access token for the registered user."),
-     *             @OA\Property(property="user", type="object", description="User details."),
+     *             @OA\Property(property="token", type="string", description="Access token for the registered user"),
+     *             @OA\Property(property="user", type="object", description="User details"),
      *         ),
      *     ),
      *     @OA\Response(
