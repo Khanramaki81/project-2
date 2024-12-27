@@ -6,6 +6,634 @@
     },
     "paths": {
         "/api": {},
+        "/api/admin/roles": {
+            "get": {
+                "tags": [
+                    "Admin Roles & Permissions"
+                ],
+                "summary": "show roles",
+                "description": "show roles",
+                "operationId": "70b0de5fcf47bc866deae2b11d4c25fb",
+                "responses": {
+                    "200": {
+                        "description": "show roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "description": "show roles",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "data not found",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin Roles & Permissions"
+                ],
+                "summary": "create role",
+                "description": "create role",
+                "operationId": "f90bbe42898b6ac0009c0e2cd77ca838",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "auther"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "می تواند وبلاگ را مدیریت کند."
+                                    },
+                                    "permissions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": "[1,2,3]"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Role created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Role created successfully",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin/roles/{id}": {
+            "get": {
+                "tags": [
+                    "Admin Roles & Permissions"
+                ],
+                "summary": "show user roles with id",
+                "description": "show user roles with id",
+                "operationId": "0a3f0b0702531f6dd27cc4ecf85cbbfa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "show user roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "description": "show user roles",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin Roles & Permissions"
+                ],
+                "summary": "delete role",
+                "description": "delete role",
+                "operationId": "bb0e1ba66210eb81f4c295c6417ea385",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "example": "2"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Role deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Role deleted successfully.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Role not found.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Admin Roles & Permissions"
+                ],
+                "summary": "update role",
+                "description": "update role",
+                "operationId": "711a8a750259b6e1360ffae7aeb35503",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "example": "3"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "auther"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "می تواند وبلاگ را مدیریت کند."
+                                    },
+                                    "permissions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": "[1,2,3]"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Role updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Role updated successfully",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin/roles/permissions": {
+            "get": {
+                "tags": [
+                    "Admin Roles & Permissions"
+                ],
+                "summary": "show permissions",
+                "description": "show permissions",
+                "operationId": "8995dcd8cbdd1cd6f25a80e46a005609",
+                "responses": {
+                    "200": {
+                        "description": "show permissions",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "description": "show permissions",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "data not found",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin/roles/assignRoleToUser": {
+            "post": {
+                "tags": [
+                    "Admin Roles & Permissions"
+                ],
+                "summary": "role assigned to user",
+                "description": "role assigned to user",
+                "operationId": "6569b0bc2e8d0c161a0958e356c05da6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "role_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": "3"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "role assigned to user successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "role assigned to user successfully",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin Roles & Permissions"
+                ],
+                "summary": "delete user role",
+                "description": "delete user role",
+                "operationId": "bfc2ef01352b5ad16bf5841b06b2facd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "role_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": "3"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "user role successfully deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "user role successfully deleted",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin/users/{user_id}": {
+            "get": {
+                "tags": [
+                    "Admin Users Management"
+                ],
+                "summary": "show user",
+                "description": "show user",
+                "operationId": "77ccc6e6c35ab97c2e8bcf095fe04377",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user_id",
+                        "required": true,
+                        "example": "2"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "show user info",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "description": "Show user info",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin Users Management"
+                ],
+                "summary": "delete user",
+                "description": "delete user",
+                "operationId": "cf4197ab17bde9f23db941ffe301c780",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user_id",
+                        "required": true,
+                        "example": "2"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "delete user info",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "description": "Delete user info",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin/users/": {
+            "post": {
+                "tags": [
+                    "Admin Users Management"
+                ],
+                "summary": "create a new user",
+                "description": "create a new user",
+                "operationId": "6a5ce5ba34e3e9469473c8b3ed47be39",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "saeideh khanramaki"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "khanramaki@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "Aa123456"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "Aa123456"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "09110000000"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "description": "Access token for the created user.",
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "description": "User details.",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/auth/sendEmail": {
             "post": {
                 "tags": [
@@ -467,7 +1095,15 @@
     "tags": [
         {
             "name": "auth",
-            "description": "auth"
+            "description": "API Endpoints of users authentication"
+        },
+        {
+            "name": "Admin Users Management",
+            "description": "API Endpoints of admins"
+        },
+        {
+            "name": "Admin Roles & Permissions",
+            "description": "Admin Roles & Permissions"
         }
     ]
 }

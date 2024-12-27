@@ -40,7 +40,14 @@ class PermissionSeeder extends Seeder
             return ['description' => $permission,'name' => $name, 'guard_name' => 'web'];
         });
         Permission::insert($permissions->toArray());
-        $role = Role::create(['name' => 'admin']);
+        $role = Role::create([
+            'name' => 'admin',
+            'description'=>'می تواند پنل ادمین را مدیریت کند.',
+            ]);
+        $role1 = Role::create([
+            'name' => 'author',
+            'description'=>'می تواند پنل ادمین را مدیریت کند.',
+        ]);
         $role->givePermissionTo(Permission::all());
 
 //        $role = Role::create(['name' => 'user']);
