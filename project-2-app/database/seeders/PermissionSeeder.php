@@ -37,7 +37,7 @@ class PermissionSeeder extends Seeder
             'edit_profile' => 'ویرایش پروفایل'
         ];
         $permissions = collect($permissions)->map(function ($permission,$name) {
-            return ['description' => $permission,'name' => $name, 'guard_name' => 'web'];
+            return ['description' => $permission,'name' => $name, 'guard_name' => 'sanctum'];
         });
         Permission::insert($permissions->toArray());
         $role = Role::create([

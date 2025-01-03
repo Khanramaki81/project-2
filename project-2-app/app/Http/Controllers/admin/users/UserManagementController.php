@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class UserManagementController extends Controller
 {
@@ -24,6 +25,7 @@ class UserManagementController extends Controller
      *           required=true,
      *           example="2",
      *      ),
+     *     security={{"bearer":{}}},
      *     @OA\Response(
      *          response=200,
      *          description="show user info",
@@ -64,6 +66,7 @@ class UserManagementController extends Controller
      *     summary="create a new user",
      *     description="create a new user",
      *     tags={"Admin Users Management"},
+     *     security={{"bearer":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -111,6 +114,7 @@ class UserManagementController extends Controller
      *           required=true,
      *           example="2",
      *      ),
+     *     security={{"bearer":{}}},
      *     @OA\Response(
      *          response=204,
      *          description="delete user info",
@@ -143,12 +147,19 @@ class UserManagementController extends Controller
         }
     }
 
-    public function update(CreateUserRequest $request,$user_id){
-            User::find($user_id)->update($request->validated());
-            return response()->json([
-                'success' => true,
-                'message' => 'Role not found.',
-            ],status:200);
+    public function update(Request $request, $user_id){
+            $request->validate([
+                "name" => ['required','string', 'between:2,100'],
+                "email" => ['required','string','email', 'max:100','unique:users'],
+                "password" => ['required', 'string', 'confirmed', Password::defaults()],
+                "phone" => ['required','string','min:10','unique:users','regex:/^09[0-9]{9}$/'],
+            ]);
+            $user = User::find($user_id);
+//            User::find($user_id)->update($request->validated());
+//            return response()->json([
+//                'success' => true,
+//                'message' => 'Role not found.',
+//            ],status:200);
     }
 }
 

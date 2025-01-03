@@ -24,6 +24,7 @@ class UserRoleController extends Controller
      *          required=true,
      *          example="1",
      *     ),
+     *     security={{"bearer":{}}},
      *     @OA\Response(
      *          response=200,
      *          description="show user roles",
@@ -73,6 +74,7 @@ class UserRoleController extends Controller
      *     summary="role assigned to user",
      *     description="role assigned to user",
      *     tags={"Admin Roles & Permissions"},
+     *     security={{"bearer":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -116,6 +118,7 @@ class UserRoleController extends Controller
      *     summary="delete user role",
      *     description="delete user role",
      *     tags={"Admin Roles & Permissions"},
+     *     security={{"bearer":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(

@@ -14,6 +14,7 @@ class ShowPermissionController extends Controller
      *     summary="show permissions",
      *     description="show permissions",
      *     tags={"Admin Roles & Permissions"},
+     *     security={{"bearer":{}}},
      *     @OA\Response(
      *          response=200,
      *          description="show permissions",

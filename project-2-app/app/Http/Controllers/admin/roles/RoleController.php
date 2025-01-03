@@ -17,6 +17,7 @@ class RoleController extends Controller
      *     summary="show roles",
      *     description="show roles",
      *     tags={"Admin Roles & Permissions"},
+     *     security={{"bearer":{}}},
      *     @OA\Response(
      *          response=200,
      *          description="show roles",
@@ -57,6 +58,7 @@ class RoleController extends Controller
      *     summary="create role",
      *     description="create role",
      *     tags={"Admin Roles & Permissions"},
+     *     security={{"bearer":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -86,9 +88,8 @@ class RoleController extends Controller
             'name' => $request->name,
             'description' => $request->description,
         ]);
-        foreach($request->permissions as $permission){
-            $role->givePermissionTo(Permission::where('id', $permission)->first());
-        }
+        $permissions = Permission::findMany($request->permissions );
+        $role->syncPermissions($permissions);
         return response()->json([
             'success' => true,
             'message' => 'Role created successfully.',
@@ -108,6 +109,7 @@ class RoleController extends Controller
      *          required=true,
      *          example="2",
      *     ),
+     *     security={{"bearer":{}}},
      *     @OA\Response(
      *          response=204,
      *          description="Role deleted successfully",
@@ -157,6 +159,7 @@ class RoleController extends Controller
      *           required=true,
      *           example="3",
      *      ),
+     *     security={{"bearer":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(

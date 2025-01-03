@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\is_admin;
+use App\Http\Middleware\not_block;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -12,7 +14,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->append(not_block::class);
+        $middleware->append(is_admin::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
