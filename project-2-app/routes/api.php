@@ -20,12 +20,6 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::prefix('admin/users')->group(function (){
-    Route::patch('/{user_id}',[UserManagementController::class,'update']);
-    Route::get('/{user_id}',[UserManagementController::class,'show']);
-    Route::post('/',[UserManagementController::class,'create']);
-    Route::delete('/{user_id}',[UserManagementController::class,'destroy']);
-})->middleware(CheckRequest::class);
 
 #region Documentation API
 Route::get('/',[DocumentController::class,'index']);
@@ -58,6 +52,15 @@ Route::prefix('auth')->group(function (){
 })->middleware(CheckRequest::class);
 
 Route::group(['middleware'=>'auth:sanctum'], function(){
+
+    Route::prefix('admin/users')->group(function () {
+        Route::patch('/{user_id}', [UserManagementController::class, 'update']);
+        Route::get('/{user_id}', [UserManagementController::class, 'show']);
+        Route::post('/', [UserManagementController::class, 'create']);
+        Route::delete('/{user_id}', [UserManagementController::class, 'destroy']);
+    })->middleware(CheckRequest::class);
+
+
 //    Route::post('/logout', [LogoutController::class,'logout']);
     Route::prefix('admin/roles')->group(function (){
 

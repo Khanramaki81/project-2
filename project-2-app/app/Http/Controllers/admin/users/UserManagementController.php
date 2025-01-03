@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\admin\users;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\admin\users\CreateUserRequest;
+use App\Http\Requests\admin\users\CreateUpdateUsersRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -58,7 +58,7 @@ class UserManagementController extends Controller
     }
 
     /**
-     * @param CreateUserRequest $request
+     * @param CreateUpdateUsersRequest $request
      * @return JsonResponse
      *
      * @OA\Post(
@@ -87,7 +87,7 @@ class UserManagementController extends Controller
      *     ),
      * )
      */
-    public function create(CreateUserRequest $request){
+    public function create(CreateUpdateUsersRequest $request){
         $data = $request->validated();
         $data['password'] = Hash::make($request->password);
         $user = User::create($data);
@@ -147,19 +147,49 @@ class UserManagementController extends Controller
         }
     }
 
-    public function update(Request $request, $user_id){
-            $request->validate([
-                "name" => ['required','string', 'between:2,100'],
-                "email" => ['required','string','email', 'max:100','unique:users'],
-                "password" => ['required', 'string', 'confirmed', Password::defaults()],
-                "phone" => ['required','string','min:10','unique:users','regex:/^09[0-9]{9}$/'],
-            ]);
-            $user = User::find($user_id);
-//            User::find($user_id)->update($request->validated());
-//            return response()->json([
-//                'success' => true,
-//                'message' => 'Role not found.',
-//            ],status:200);
+    /**
+     * @param CreateUpdateUsersRequest $request
+     * @return JsonResponse
+     *
+     * @OA\Patch(
+     *     path="/api/admin/users/{user_id}",
+     *     summary="update an existing user",
+     *     description="update an existing user",
+     *     tags={"Admin users Management"},
+     *     @OA\Parameter(
+     *          description="user_id",
+     *          in="path",
+     *          name="user_id",
+     *          required=true,
+     *          example="2",
+     *      ),
+     *     security={{"bearer":{}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", example="saeideh khanramaki"),
+     *             @OA\Property(property="email", type="string", example="khanramaki@gmail.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="Aa123456"),
+     *             @OA\Property(property="password_confirmation", type="string", format="password", example="Aa123456"),
+     *             @OA\Property(property="phone", type="string", example="09110000000"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Update an existing User",
+     *         @OA\JsonContent(
+     *              @OA\Property(property="token", type="string", description="Access token for the updated user."),
+     *              @OA\property(property="user", type="object", description="User details."),
+     *         ),
+     *     ),
+     * )
+     */
+    public function update(CreateUpdateUsersRequest $request,User $user_id){
+            $user_id->update($request->validated());
+            return response()->json([
+                'success' => true,
+                'message' => 'User updated successfully.',
+            ],status:200);
     }
 }
 

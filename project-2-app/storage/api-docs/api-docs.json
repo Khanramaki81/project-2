@@ -616,6 +616,84 @@
                         "bearer": []
                     }
                 ]
+            },
+            "patch": {
+                "tags": [
+                    "Admin users Management"
+                ],
+                "summary": "update an existing user",
+                "description": "update an existing user",
+                "operationId": "6e0dc2c7de94ab10bc4fc544755ac659",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user_id",
+                        "required": true,
+                        "example": "2"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "saeideh khanramaki"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "khanramaki@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "Aa123456"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "Aa123456"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "09110000000"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update an existing User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "description": "Access token for the updated user.",
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "description": "User details.",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/api/admin/users/": {
@@ -1196,6 +1274,10 @@
         {
             "name": "Admin Roles & Permissions",
             "description": "Admin Roles & Permissions"
+        },
+        {
+            "name": "Admin users Management",
+            "description": "Admin users Management"
         }
     ],
     "components": {
