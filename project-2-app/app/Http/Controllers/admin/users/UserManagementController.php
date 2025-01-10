@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin\users;
 
+use app\Helpers\ACLHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\users\CreateUpdateUsersRequest;
 use App\Models\User;
@@ -27,6 +28,13 @@ class UserManagementController extends Controller
      *      ),
      *     security={{"bearer":{}}},
      *     @OA\Response(
+     *          response=403,
+     *          description="the user does not have this permission.",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string"),
+     *          ),
+     *     ),
+     *     @OA\Response(
      *          response=200,
      *          description="show user info",
      *          @OA\JsonContent(
@@ -43,18 +51,18 @@ class UserManagementController extends Controller
      * )
      */
     public function show($user_id){
+        ACLHelper::ACL("show_user");
         $user = User::find($user_id);
         if($user){
             return response()->json([
                 'success' => true,
                 'data' => $user,
             ],status:200);
-        }else{
-            return response()->json([
-                'success' => false,
-                'message' => 'user not found.',
-            ],status:404);
         }
+        return response()->json([
+            'success' => false,
+            'message' => 'user not found.',
+        ],status:404);
     }
 
     /**
@@ -78,6 +86,13 @@ class UserManagementController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
+     *          response=403,
+     *          description="the user does not have this permission.",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string"),
+     *          ),
+     *     ),
+     *     @OA\Response(
      *         response=200,
      *         description="User created successfully",
      *         @OA\JsonContent(
@@ -87,7 +102,8 @@ class UserManagementController extends Controller
      *     ),
      * )
      */
-    public function create(CreateUpdateUsersRequest $request){
+    public function store(CreateUpdateUsersRequest $request){
+        ACLHelper::ACL("create_user");
         $data = $request->validated();
         $data['password'] = Hash::make($request->password);
         $user = User::create($data);
@@ -95,7 +111,8 @@ class UserManagementController extends Controller
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->plainTextToken;
         return response()->json([
-            'message' => "User created successfully.",
+            "success" => true,
+            "message" => "User created successfully.",
             "token" => $token,
             "user" => $user
         ]);
@@ -116,6 +133,13 @@ class UserManagementController extends Controller
      *      ),
      *     security={{"bearer":{}}},
      *     @OA\Response(
+     *          response=403,
+     *          description="the user does not have this permission.",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string"),
+     *          ),
+     *     ),
+     *     @OA\Response(
      *          response=204,
      *          description="delete user info",
      *          @OA\JsonContent(
@@ -132,6 +156,7 @@ class UserManagementController extends Controller
      * )
      */
     public function destroy($user_id){
+        ACLHelper::ACL("delete_user");
         $user = User::find($user_id);
         if($user){
             $user->delete($user);
@@ -139,12 +164,11 @@ class UserManagementController extends Controller
                 'success' => true,
                 'message' => "User deleted successfully",
             ], status: 204);
-        }else{
-            return response()->json([
-                'success' => false,
-                'message' => "user not found.",
-            ], status: 404);
         }
+        return response()->json([
+            'success' => false,
+            'message' => "user not found.",
+        ], status: 404);
     }
 
     /**
@@ -155,7 +179,7 @@ class UserManagementController extends Controller
      *     path="/api/admin/users/{user_id}",
      *     summary="update an existing user",
      *     description="update an existing user",
-     *     tags={"Admin users Management"},
+     *     tags={"Admin Users Management"},
      *     @OA\Parameter(
      *          description="user_id",
      *          in="path",
@@ -175,6 +199,13 @@ class UserManagementController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
+     *          response=403,
+     *          description="the user does not have this permission.",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string"),
+     *          ),
+     *     ),
+     *     @OA\Response(
      *         response=200,
      *         description="Update an existing User",
      *         @OA\JsonContent(
@@ -185,6 +216,7 @@ class UserManagementController extends Controller
      * )
      */
     public function update(CreateUpdateUsersRequest $request,User $user_id){
+            ACLHelper::ACL("edit_user");
             $user_id->update($request->validated());
             return response()->json([
                 'success' => true,

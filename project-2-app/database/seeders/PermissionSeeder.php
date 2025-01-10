@@ -29,12 +29,22 @@ class PermissionSeeder extends Seeder
 
 //        Permission::insert($permissions->toArray());
         $permissions = [
-            'create_post' => 'ایجاد کردن پست.',
-            'show_post' => 'نمایش دادن پست.',
-            'edit_post' => 'ویرایش کردن پست.',
-            'delete_post' => 'حذف کردن پست.',
-            'delete_user' => 'حذف کاربر',
-            'edit_profile' => 'ویرایش پروفایل'
+            'show_all_users' => 'نمایش همه کاربران به ادمین',
+            'delete_avatar' => 'حذف آواتار کاربر',
+            'store_avatar' => 'ذخیره آواتار کاربر',
+            'create_user' => 'ایجاد کاربر',
+            'edit_user_status' => 'تعیین وضعیت کاربر',
+            'show_user' => 'نمایش اطلاعات یک کاربر',
+            'delete_user' => 'حذف یک کاربر',
+            'edit_user' => 'ویرایش اطلاعات یک کاربر',
+            'show_roles' => 'نمایش نقش های موجود',
+            'create_role' => 'ایجاد یک نقش',
+            'show_user_roles' => 'نمایش نقش های یک کاربر',
+            'delete_user_roles' => 'حذف نقش های یک کاربر',
+            'edit_role' => 'ویرایش یک نقش به همراه مجوز های آن',
+            'show_permissions' => 'نمایش مجوز های موجود',
+            'assign_user_role' => 'اختصاص نقش به کاربر',
+            'delete_role' => 'حذف نقش'
         ];
         $permissions = collect($permissions)->map(function ($permission,$name) {
             return ['description' => $permission,'name' => $name, 'guard_name' => 'sanctum'];

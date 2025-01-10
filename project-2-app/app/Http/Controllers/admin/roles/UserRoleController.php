@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin\roles;
 
+use app\Helpers\ACLHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\roles\AssignRoleToUserRequest;
 use App\Models\User;
@@ -26,6 +27,13 @@ class UserRoleController extends Controller
      *     ),
      *     security={{"bearer":{}}},
      *     @OA\Response(
+     *          response=403,
+     *          description="the user does not have this permission.",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string"),
+     *          ),
+     *     ),
+     *     @OA\Response(
      *          response=200,
      *          description="show user roles",
      *          @OA\JsonContent(
@@ -41,8 +49,9 @@ class UserRoleController extends Controller
      *     ),
      * )
      */
-    public function show($id)
+    public function index($id)
     {
+        ACLHelper::ACL("show_user_roles");
         $user = User::find($id);
         if($user){
             $roles = $user->roles->pluck('name')->toArray();
@@ -51,18 +60,16 @@ class UserRoleController extends Controller
                     'success' => true,
                     'data' => $roles,
                 ],status:200);
-            }else{
-                return response()->json([
-                    'success' => false,
-                    'message' => "The user has no role.",
-                ],status:404);
             }
-        }else{
             return response()->json([
                 'success' => false,
-                'message' => "User not found.",
+                'message' => "The user has no role.",
             ],status:404);
         }
+        return response()->json([
+            'success' => false,
+            'message' => "User not found.",
+        ],status:404);
     }
 
     /**
@@ -83,6 +90,13 @@ class UserRoleController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
+     *          response=403,
+     *          description="the user does not have this permission.",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string"),
+     *          ),
+     *     ),
+     *     @OA\Response(
      *          response=201,
      *          description="role assigned to user successfully",
      *          @OA\JsonContent(
@@ -98,8 +112,9 @@ class UserRoleController extends Controller
      *     ),
      * )
      */
-    public function create(AssignRoleToUserRequest $request)
+    public function store(AssignRoleToUserRequest $request)
     {
+        ACLHelper::ACL("assign_user_role");
         $role = Role::findById($request->role_id);
         $user = User::find($request->user_id);
         $user->assignRole($role->name);
@@ -127,6 +142,13 @@ class UserRoleController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
+     *          response=403,
+     *          description="the user does not have this permission.",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string"),
+     *          ),
+     *     ),
+     *     @OA\Response(
      *          response=201,
      *          description="user role successfully deleted",
      *          @OA\JsonContent(
@@ -144,6 +166,7 @@ class UserRoleController extends Controller
      */
     public function destroy(AssignRoleToUserRequest $request)
     {
+        ACLHelper::ACL("delete_user_roles");
         $role = Role::findById($request->role_id);
         $user = User::find($request->user_id);
         $user->removeRole($role->name);

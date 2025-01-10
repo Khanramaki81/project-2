@@ -56,12 +56,12 @@ class LoginController extends Controller
                 "user" => $user,
                 "message" => "You have been logged in successfully."
             ]);
-        }else{
-            return response()->json([
-                'success' => false,
-                'data' => [],
-                'message' => 'password is invalid',
-            ]);
         }
+        return response()->json([
+            'success' => false,
+            'data' => [],
+            'message' => 'password is invalid',
+        ]);
+
     }
 }

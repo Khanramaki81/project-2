@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin\roles;
 
+use app\Helpers\ACLHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\roles\CreateRoleRequest;
 use Illuminate\Http\JsonResponse;
@@ -19,6 +20,13 @@ class RoleController extends Controller
      *     tags={"Admin Roles & Permissions"},
      *     security={{"bearer":{}}},
      *     @OA\Response(
+     *          response=403,
+     *          description="the user does not have this permission.",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string"),
+     *          ),
+     *     ),
+     *     @OA\Response(
      *          response=200,
      *          description="show roles",
      *          @OA\JsonContent(
@@ -34,19 +42,19 @@ class RoleController extends Controller
      *     ),
      * )
      */
-    public function show(){
+    public function index(){
+        ACLHelper::ACL("show_roles");
         $data = Role::all('name', 'description');
         if($data){
             return response()->json([
                 'success' => true,
                 'data' => $data,
             ],status:200);
-        }else{
-            return response()->json([
-                'success' => false,
-                'message' => "data not found.",
-            ],status:404);
         }
+        return response()->json([
+            'success' => false,
+            'message' => "data not found.",
+        ],status:404);
     }
 
     /**
@@ -68,6 +76,13 @@ class RoleController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
+     *          response=403,
+     *          description="the user does not have this permission.",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string"),
+     *          ),
+     *     ),
+     *     @OA\Response(
      *          response=201,
      *          description="Role created successfully",
      *          @OA\JsonContent(
@@ -83,7 +98,8 @@ class RoleController extends Controller
      *     ),
      * )
      */
-    public function create(CreateRoleRequest $request){
+    public function store(CreateRoleRequest $request){
+        ACLHelper::ACL("create_role");
         $role = Role::create([
             'name' => $request->name,
             'description' => $request->description,
@@ -111,6 +127,13 @@ class RoleController extends Controller
      *     ),
      *     security={{"bearer":{}}},
      *     @OA\Response(
+     *          response=403,
+     *          description="the user does not have this permission.",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string"),
+     *          ),
+     *     ),
+     *     @OA\Response(
      *          response=204,
      *          description="Role deleted successfully",
      *          @OA\JsonContent(
@@ -128,18 +151,18 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
+        ACLHelper::ACL("delete_role");
         $role = Role::destroy($id);
         if($role){
             return response()->json([
                 'success' => true,
                 'message' => "Role deleted successfully",
             ],status:204);
-        }else{
-            return response()->json([
-                'success' => false,
-                'message' => "Role not found",
-            ],status:404);
         }
+        return response()->json([
+            'success' => false,
+            'message' => "Role not found",
+        ],status:404);
     }
 
     /**
@@ -169,6 +192,13 @@ class RoleController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
+     *          response=403,
+     *          description="the user does not have this permission.",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string"),
+     *          ),
+     *     ),
+     *     @OA\Response(
      *          response=201,
      *          description="Role updated successfully",
      *          @OA\JsonContent(
@@ -185,17 +215,17 @@ class RoleController extends Controller
      * )
      */
     public function update(CreateRoleRequest $request,$id){
+        ACLHelper::ACL("edit_role");
         if(Role::find($id)){
             Role::findById($id)->update($request->validated());
             return response()->json([
                 'success' => true,
                 'message' => 'Role updated successfully.',
             ],status:201);
-        }else{
-            return response()->json([
-                'success' => false,
-                'message' => 'Role not found.',
-            ],status:404);
         }
+        return response()->json([
+            'success' => false,
+            'message' => 'Role not found.',
+        ],status:404);
     }
 }

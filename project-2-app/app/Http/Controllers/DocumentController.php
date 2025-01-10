@@ -29,6 +29,11 @@ class DocumentController extends Controller
      *      description="Admin Roles & Permissions"
      * ),
      *
+     * @OA\Tag(
+     *       name="Locations",
+     *       description="API Endpoints of Locations"
+     *  ),
+     *
      */
     public function index(): string
     {

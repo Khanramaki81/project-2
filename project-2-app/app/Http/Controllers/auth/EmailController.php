@@ -79,11 +79,11 @@ class EmailController extends Controller
                 'data' => [],
                 'message' => 'Send Code To Email Successfully',
             ]);
-        }else
-            return response()->json([
-                'success' => false,
-                'message' => "email not found",
-            ],  status: 422);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => "email not found",
+        ],  status: 422);
     }
 
     /**
@@ -159,34 +159,30 @@ class EmailController extends Controller
                                 'user' => $user->only('name','email','created_at'),
                             ]
                         ]);
-                    }else{
-                        $code->delete();
-                        return response()->json([
-                            'success' => false,
-                            'message' => 'Code Expired'
-                        ],status: 403);
                     }
-                }else{
+                    $code->delete();
                     return response()->json([
                         'success' => false,
-                        'message' => 'Code Invalid'
-                    ],status: 400);
+                        'message' => 'Code Expired'
+                    ],status: 403);
                 }
-            }else{
                 return response()->json([
                     'success' => false,
-                    'message' => [
-                        'not_found' => 'Email does not match'
-                    ],
-                ],status:404);
+                    'message' => 'Code Invalid'
+                ],status: 400);
             }
-        }else{
             return response()->json([
                 'success' => false,
                 'message' => [
-                    'not_found' => 'The email is incorrect'
+                    'not_found' => 'Email does not match'
                 ],
-            ],status: 404);
+            ],status:404);
         }
+        return response()->json([
+            'success' => false,
+            'message' => [
+                'not_found' => 'The email is incorrect'
+            ],
+        ],status: 404);
     }
 }

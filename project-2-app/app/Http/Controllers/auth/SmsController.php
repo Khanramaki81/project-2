@@ -71,7 +71,7 @@ class SmsController extends Controller
                     'expired_at' => Carbon::now()->addMinutes(10),
                 ]);
             }
-            if (env('SMS_STATUS')) {
+            if(config('sms.sms_status')){
                 SmsHelper::sendSms($mobile_number, $code);
             }
             return response()->json([
@@ -79,10 +79,10 @@ class SmsController extends Controller
                 'data' => [],
                 'message' => 'Send Code To SMS Successfully',
             ]);
-        } else
-            return response()->json([
-                'success' => false,
-            ], status: 422);
+        }
+        return response()->json([
+            'success' => false,
+        ], status: 422);
     }
 
     /**
@@ -154,34 +154,30 @@ class SmsController extends Controller
                                 'user' => $user->only('name','email','phone','created_at'),
                             ]
                         ]);
-                    }else{
-                        $code->delete();
-                        return response()->json([
-                            'success' => false,
-                            'message' => 'Code Expired'
-                        ],status: 403);
                     }
-                }else{
+                    $code->delete();
                     return response()->json([
                         'success' => false,
-                        'message' => 'Code Invalid'
-                    ],status: 400);
+                        'message' => 'Code Expired'
+                    ],status: 403);
                 }
-            }else{
                 return response()->json([
                     'success' => false,
-                    'message' => [
-                        'not_found' => 'Phone does not match'
-                    ],
-                ],status: 404);
+                    'message' => 'Code Invalid'
+                ],status: 400);
             }
-        }else{
             return response()->json([
                 'success' => false,
                 'message' => [
-                    'not_found' => 'The phone is incorrect'
+                    'not_found' => 'Phone does not match'
                 ],
-            ],status:404);
+            ],status: 404);
         }
+        return response()->json([
+            'success' => false,
+            'message' => [
+                'not_found' => 'The phone is incorrect'
+            ],
+        ],status:404);
     }
 }

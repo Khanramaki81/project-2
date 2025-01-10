@@ -3,6 +3,9 @@
 use App\Http\Controllers\admin\roles\RoleController;
 use App\Http\Controllers\admin\roles\ShowPermissionController;
 use App\Http\Controllers\admin\roles\UserRoleController;
+use App\Http\Controllers\admin\users\AvatarUserController;
+use App\Http\Controllers\admin\users\ShowAllUsersController;
+use App\Http\Controllers\admin\users\StatusUserController;
 use App\Http\Controllers\admin\users\UserManagementController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\auth\EmailController;
@@ -11,6 +14,8 @@ use App\Http\Controllers\auth\logoutController;
 use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\auth\SmsController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\locations\CitiesController;
+use App\Http\Controllers\locations\ProvincesController;
 use App\Http\Controllers\testController;
 use App\Http\Middleware\CheckRequest;
 use Illuminate\Http\Request;
@@ -19,7 +24,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
-
 
 #region Documentation API
 Route::get('/',[DocumentController::class,'index']);
@@ -46,42 +50,66 @@ Route::prefix('auth')->group(function (){
     Route::group(['middleware'=>'auth:sanctum'], function(){
         Route::post('/logout', [LogoutController::class,'logout']);
     });
-//    Route::post('/logout', [LogoutController::class,'logout'])->middleware(['auth:sanctum', 'verify_csrf_token']);
     #endregion
-
 })->middleware(CheckRequest::class);
 
-Route::group(['middleware'=>'auth:sanctum'], function(){
+Route::group(['middleware'=>['auth:sanctum', 'not_block', 'checkRole'.':admin']], function(){
 
+    #region locations
+    Route::prefix('/provinces')->withoutMiddleware(['checkRole' . ':admin'])->group(function () {
+        Route::get('/', [ProvincesController::class, 'index']);
+        Route::get('/{province_id}', [CitiesController::class, 'index']);
+    });
+    #endregion
+
+    #region admin users management
     Route::prefix('admin/users')->group(function () {
-        Route::patch('/{user_id}', [UserManagementController::class, 'update']);
+        #region avatar
+        Route::post('/{user_id}/avatar',[AvatarUserController::class,'store']);
+        Route::delete('/{user_id}/avatar',[AvatarUserController::class,'destroy']);
+        #endregion
+
+        #region users list
+        Route::get('/', [ShowAllUsersController::class, 'index']);
+        #endregion
+
+        #region user status
+        Route::patch('/{user_id}/updateStatus', [StatusUserController::class, 'update']);
+        #endregion
+
+        #region user management
         Route::get('/{user_id}', [UserManagementController::class, 'show']);
-        Route::post('/', [UserManagementController::class, 'create']);
+        Route::post('/', [UserManagementController::class, 'store']);
         Route::delete('/{user_id}', [UserManagementController::class, 'destroy']);
+        Route::patch('/{user_id}', [UserManagementController::class, 'update']);
+        #endregion
+
     })->middleware(CheckRequest::class);
+    #endregion
 
-
-//    Route::post('/logout', [LogoutController::class,'logout']);
+    #region admin roles & permissions
     Route::prefix('admin/roles')->group(function (){
 
-        #region
-        Route::get('/permissions',[ShowPermissionController::class,'show']);
+        #region permissions
+        Route::get('/permissions',[ShowPermissionController::class,'index']);
         #region
 
         #region user role
         Route::delete('/assignRoleToUser',[UserRoleController::class,'destroy']);
-        Route::post('/assignRoleToUser',[UserRoleController::class,'create']);
-        Route::get('/{id}',[UserRoleController::class,'show']);
+        Route::post('/assignRoleToUser',[UserRoleController::class,'store']);
+        Route::get('/{id}',[UserRoleController::class,'index']);
         #endregion
 
         #region Role
-        Route::get('/',[RoleController::class,'show']);
-        Route::post('/',[RoleController::class,'create']);
+        Route::get('/',[RoleController::class,'index']);
+        Route::post('/',[RoleController::class,'store']);
         Route::delete('/{id}',[RoleController::class,'destroy']);
         Route::patch('/{id}',[RoleController::class,'update']);
         #endregion
 
     })->middleware(CheckRequest::class);
+    #endregion
+
 });
 
 

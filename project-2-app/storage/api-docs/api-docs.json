@@ -13,8 +13,23 @@
                 ],
                 "summary": "show roles",
                 "description": "show roles",
-                "operationId": "70b0de5fcf47bc866deae2b11d4c25fb",
+                "operationId": "5c0aa19bb54c829c8d2d2fed8c150b7c",
                 "responses": {
+                    "403": {
+                        "description": "the user does not have this permission.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
                     "200": {
                         "description": "show roles",
                         "content": {
@@ -60,7 +75,7 @@
                 ],
                 "summary": "create role",
                 "description": "create role",
-                "operationId": "f90bbe42898b6ac0009c0e2cd77ca838",
+                "operationId": "d40d1e7a969d3b32543c73b0fa88617a",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -89,6 +104,21 @@
                     }
                 },
                 "responses": {
+                    "403": {
+                        "description": "the user does not have this permission.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
                     "201": {
                         "description": "Role created successfully",
                         "content": {
@@ -135,7 +165,7 @@
                 ],
                 "summary": "show user roles with id",
                 "description": "show user roles with id",
-                "operationId": "0a3f0b0702531f6dd27cc4ecf85cbbfa",
+                "operationId": "c7ef74b8e793dc740308d773c969ab49",
                 "parameters": [
                     {
                         "name": "id",
@@ -146,6 +176,21 @@
                     }
                 ],
                 "responses": {
+                    "403": {
+                        "description": "the user does not have this permission.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
                     "200": {
                         "description": "show user roles",
                         "content": {
@@ -201,6 +246,21 @@
                     }
                 ],
                 "responses": {
+                    "403": {
+                        "description": "the user does not have this permission.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
                     "204": {
                         "description": "Role deleted successfully",
                         "content": {
@@ -284,6 +344,21 @@
                     }
                 },
                 "responses": {
+                    "403": {
+                        "description": "the user does not have this permission.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
                     "201": {
                         "description": "Role updated successfully",
                         "content": {
@@ -330,8 +405,23 @@
                 ],
                 "summary": "show permissions",
                 "description": "show permissions",
-                "operationId": "8995dcd8cbdd1cd6f25a80e46a005609",
+                "operationId": "1aeffe6cc8993f23e5a43198d9d8cbb5",
                 "responses": {
+                    "403": {
+                        "description": "the user does not have this permission.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
                     "200": {
                         "description": "show permissions",
                         "content": {
@@ -379,7 +469,7 @@
                 ],
                 "summary": "role assigned to user",
                 "description": "role assigned to user",
-                "operationId": "6569b0bc2e8d0c161a0958e356c05da6",
+                "operationId": "e1797adacf582870fffb5dd8b8d10f3a",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -401,6 +491,21 @@
                     }
                 },
                 "responses": {
+                    "403": {
+                        "description": "the user does not have this permission.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
                     "201": {
                         "description": "role assigned to user successfully",
                         "content": {
@@ -467,6 +572,21 @@
                     }
                 },
                 "responses": {
+                    "403": {
+                        "description": "the user does not have this permission.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
                     "201": {
                         "description": "user role successfully deleted",
                         "content": {
@@ -475,6 +595,438 @@
                                     "properties": {
                                         "message": {
                                             "description": "user role successfully deleted",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/users/{user_id}/avatar": {
+            "post": {
+                "tags": [
+                    "Admin Users Management"
+                ],
+                "summary": "store new avatar",
+                "description": "Store new avatar and create image record in DB",
+                "operationId": "60220ad4d6c53cd64a5456556d20f9d5",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user_id",
+                        "required": true,
+                        "example": "2"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "avatar": {
+                                        "description": "The image to be uploaded.",
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "403": {
+                        "description": "the user does not have this permission.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "image stored successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "url": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin Users Management"
+                ],
+                "summary": "delete an existing avatar image",
+                "description": "delete an existing avatar image",
+                "operationId": "598386a251e618ca7360579d616387d4",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user_id",
+                        "required": true,
+                        "example": "2"
+                    }
+                ],
+                "responses": {
+                    "403": {
+                        "description": "the user does not have this permission.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "image stored successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "url": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/users/": {
+            "get": {
+                "tags": [
+                    "Admin Users Management"
+                ],
+                "summary": "show all users to admin",
+                "description": "show all users to admin",
+                "operationId": "9278e4d9b2d84c8f019aad2c2de63fff",
+                "parameters": [
+                    {
+                        "name": "is_admin",
+                        "in": "query",
+                        "description": "choose: **true|false**"
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "status: **is_active|is_blocked**",
+                        "schema": {
+                            "example": "is_active"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "user email",
+                        "schema": {
+                            "example": "name@gmail.com"
+                        }
+                    },
+                    {
+                        "name": "cell_phone_number",
+                        "in": "query",
+                        "description": "user cell phone",
+                        "schema": {
+                            "example": "09000000000"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "user name",
+                        "schema": {
+                            "example": "name"
+                        }
+                    },
+                    {
+                        "name": "data_from",
+                        "in": "query",
+                        "description": "list of users start from",
+                        "schema": {
+                            "example": "2025-01-07T18:18:28"
+                        }
+                    },
+                    {
+                        "name": "data_to",
+                        "in": "query",
+                        "description": "list of users data end to",
+                        "schema": {
+                            "example": "2025-01-07T18:18:28"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "page",
+                        "schema": {
+                            "example": "1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Access token for the created user.",
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Access token for the created user.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Admin Users Management"
+                ],
+                "summary": "create a new user",
+                "description": "create a new user",
+                "operationId": "e2b18774acbbaaaeabbea38fc36beaa7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "saeideh khanramaki"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "khanramaki@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "Aa123456"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "Aa123456"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "09110000000"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "403": {
+                        "description": "the user does not have this permission.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "User created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "description": "Access token for the created user.",
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "description": "User details.",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/users/{user_id}/updateStatus": {
+            "patch": {
+                "tags": [
+                    "Admin Users Management"
+                ],
+                "summary": "update an existing User's status",
+                "description": "update an existing User'hps status",
+                "operationId": "180f24bc609a1dc681074e107bc93ba0",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user_id",
+                        "required": true,
+                        "example": "2"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "is_blocked": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "403": {
+                        "description": "the user does not have this permission.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "user updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
                                             "type": "string"
                                         }
                                     },
@@ -524,6 +1076,21 @@
                     }
                 ],
                 "responses": {
+                    "403": {
+                        "description": "the user does not have this permission.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
                     "200": {
                         "description": "show user info",
                         "content": {
@@ -579,6 +1146,21 @@
                     }
                 ],
                 "responses": {
+                    "403": {
+                        "description": "the user does not have this permission.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
                     "204": {
                         "description": "delete user info",
                         "content": {
@@ -619,7 +1201,7 @@
             },
             "patch": {
                 "tags": [
-                    "Admin users Management"
+                    "Admin Users Management"
                 ],
                 "summary": "update an existing user",
                 "description": "update an existing user",
@@ -668,6 +1250,21 @@
                     }
                 },
                 "responses": {
+                    "403": {
+                        "description": "the user does not have this permission.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
                     "200": {
                         "description": "Update an existing User",
                         "content": {
@@ -676,77 +1273,6 @@
                                     "properties": {
                                         "token": {
                                             "description": "Access token for the updated user.",
-                                            "type": "string"
-                                        },
-                                        "user": {
-                                            "description": "User details.",
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
-            }
-        },
-        "/api/admin/users/": {
-            "post": {
-                "tags": [
-                    "Admin Users Management"
-                ],
-                "summary": "create a new user",
-                "description": "create a new user",
-                "operationId": "6a5ce5ba34e3e9469473c8b3ed47be39",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "example": "saeideh khanramaki"
-                                    },
-                                    "email": {
-                                        "type": "string",
-                                        "example": "khanramaki@gmail.com"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "format": "password",
-                                        "example": "Aa123456"
-                                    },
-                                    "password_confirmation": {
-                                        "type": "string",
-                                        "format": "password",
-                                        "example": "Aa123456"
-                                    },
-                                    "phone": {
-                                        "type": "string",
-                                        "example": "09110000000"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "User created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "token": {
-                                            "description": "Access token for the created user.",
                                             "type": "string"
                                         },
                                         "user": {
@@ -1260,6 +1786,88 @@
                     }
                 ]
             }
+        },
+        "/api/provinces/{province_id}": {
+            "get": {
+                "tags": [
+                    "Locations"
+                ],
+                "summary": "show province with it's cities",
+                "description": "show province with it's cities",
+                "operationId": "add9680ecff714258603d0285f2fea8b",
+                "parameters": [
+                    {
+                        "name": "province_id",
+                        "in": "path",
+                        "description": "province_id",
+                        "required": true,
+                        "example": "27"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show province with it's cities",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "province": {
+                                            "type": "object"
+                                        },
+                                        "cities": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/provinces": {
+            "get": {
+                "tags": [
+                    "Locations"
+                ],
+                "summary": "show all provinces",
+                "description": "show all provinces",
+                "operationId": "a4bb1ad5eb9dac2a217f7bd8bda38591",
+                "responses": {
+                    "200": {
+                        "description": "show all provinces",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
         }
     },
     "tags": [
@@ -1276,8 +1884,8 @@
             "description": "Admin Roles & Permissions"
         },
         {
-            "name": "Admin users Management",
-            "description": "Admin users Management"
+            "name": "Locations",
+            "description": "API Endpoints of Locations"
         }
     ],
     "components": {

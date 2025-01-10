@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\is_admin;
 use App\Http\Middleware\not_block;
 use Illuminate\Foundation\Application;
@@ -14,8 +15,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->append(not_block::class);
-        $middleware->append(is_admin::class);
+//        $middleware->append(not_block::class);
+        $middleware->alias([
+            'not_block' => not_block::class,
+            'checkRole' => CheckRole::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
